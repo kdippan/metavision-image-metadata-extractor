@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>MetaVision - Advanced Image Metadata Extractor & Analyzer | Dippan Bhusal</title>
+    <meta name="description" content="Extract comprehensive metadata from images including EXIF, GPS, color analysis, OCR text, and QR codes. Client-side processing ensures privacy and security.">
+    <meta name="keywords" content="image metadata, EXIF extractor, GPS data, OCR, QR code scanner, color analysis, image analyzer">
+    <meta name="author" content="Dippan Bhusal">
+    <meta name="email" content="connect.dippan@gmail.com" />
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="MetaVision - Advanced Image Metadata Extractor">
+    <meta property="og:description" content="Extract comprehensive metadata from images with advanced analysis tools">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://i.postimg.cc/wT2XcBYg/logo.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MetaVision - Image Metadata Extractor">
+    <meta name="twitter:description" content="Extract EXIF, GPS, colors, OCR text and more from your images">
+    <meta name="twitter:creator" content="@DippanBhusal">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/wT2XcBYg/logo.png>">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://api.imgbb.com">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/node-vibrant/dist/vibrant.min.js" defer></script>
+    <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "MetaVision",
+      "description": "Advanced Image Metadata Extractor and Analyzer",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Dippan Bhusal",
+        "email": "connect.dippan@gmail.com"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- Privacy Banner -->
+    <div id="privacyBanner" class="privacy-banner" role="alert" aria-live="polite">
+        <div class="privacy-content">
+            <i class="fas fa-shield-alt"></i>
+            <p><strong>Privacy Notice:</strong> All metadata extraction is performed client-side. Your images are only uploaded to ImgBB for hosting. No data is stored on our servers.</p>
+            <button id="closeBanner" class="close-banner" aria-label="Close privacy notice">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Main navigation">
+            <div class="logo">
+                <i class="fas fa-camera-retro"></i>
+                <h1>MetaVision</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#upload" class="nav-link">Upload</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="upload">
+        <div class="hero-content">
+            <lord-icon
+                src="https://cdn.lordicon.com/wxnxiano.json"
+                trigger="loop"
+                colors="primary:#6366f1,secondary:#8b5cf6"
+                style="width:120px;height:120px">
+            </lord-icon>
+            <h2 class="hero-title">Advanced Image Metadata Extractor</h2>
+            <p class="hero-description">Extract comprehensive metadata including EXIF, GPS, colors, OCR text, and QR codes from your images</p>
+            
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="uploadZone" tabindex="0" role="button" aria-label="Upload image">
+                <input type="file" id="fileInput" accept="image/*" hidden aria-label="Choose image file">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <p class="upload-text">Drag & Drop your image here</p>
+                <p class="upload-subtext">or click to browse (Max 32MB)</p>
+                <div class="supported-formats">
+                    <span class="format-badge">JPG</span>
+                    <span class="format-badge">PNG</span>
+                    <span class="format-badge">WEBP</span>
+                    <span class="format-badge">GIF</span>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner hidden" role="status" aria-live="polite">
+                <div class="spinner"></div>
+                <p id="loadingText">Processing your image...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="resultsSection" class="results-section hidden">
+        <div class="results-container">
+            <!-- GPS Warning (shown conditionally) -->
+            <div id="gpsWarning" class="gps-warning hidden" role="alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Location Data Detected!</strong>
+                    <p>This image contains GPS coordinates. Be cautious when sharing to protect your privacy.</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="copyAllBtn" class="action-btn" aria-label="Copy all metadata">
+                    <i class="fas fa-copy"></i> Copy All
+                </button>
+                <button id="downloadJsonBtn" class="action-btn" aria-label="Download metadata as JSON">
+                    <i class="fas fa-download"></i> Download JSON
+                </button>
+                <button id="newUploadBtn" class="action-btn primary" aria-label="Upload new image">
+                    <i class="fas fa-plus"></i> New Upload
+                </button>
+            </div>
+
+            <!-- Metadata Tabs -->
+            <div class="tabs-container">
+                <div class="tabs" role="tablist" aria-label="Metadata categories">
+                    <button class="tab active" data-tab="file" role="tab" aria-selected="true" aria-controls="file-panel">
+                        <i class="fas fa-file"></i> File Info
+                    </button>
+                    <button class="tab" data-tab="image" role="tab" aria-selected="false" aria-controls="image-panel">
+                        <i class="fas fa-image"></i> Image
+                    </button>
+                    <button class="tab" data-tab="camera" role="tab" aria-selected="false" aria-controls="camera-panel">
+                        <i class="fas fa-camera"></i> Camera
+                    </button>
+                    <button class="tab" data-tab="location" role="tab" aria-selected="false" aria-controls="location-panel">
+                        <i class="fas fa-map-marker-alt"></i> Location
+                    </button>
+                    <button class="tab" data-tab="colors" role="tab" aria-selected="false" aria-controls="colors-panel">
+                        <i class="fas fa-palette"></i> Colors
+                    </button>
+                    <button class="tab" data-tab="text" role="tab" aria-selected="false" aria-controls="text-panel">
+                        <i class="fas fa-qrcode"></i> Text/QR
+                    </button>
+                    <button class="tab" data-tab="technical" role="tab" aria-selected="false" aria-controls="technical-panel">
+                        <i class="fas fa-cog"></i> Technical
+                    </button>
+                </div>
+
+                <!-- Tab Panels -->
+                <div class="tab-content">
+                    <!-- File Information Panel -->
+                    <div id="file-panel" class="tab-panel active" role="tabpanel" aria-labelledby="file">
+                        <div class="metadata-grid" id="fileMetadata"></div>
+                    </div>
+
+                    <!-- Image Properties Panel -->
+                    <div id="image-panel" class="tab-panel" role="tabpanel" aria-labelledby="image">
+                        <div id="imagePreview" class="image-preview"></div>
+                        <div class="metadata-grid" id="imageMetadata"></div>
+                    </div>
+
+                    <!-- Camera & EXIF Panel -->
+                    <div id="camera-panel" class="tab-panel" role="tabpanel" aria-labelledby="camera">
+                        <div class="metadata-grid" id="cameraMetadata"></div>
+                    </div>
+
+                    <!-- Location Panel -->
+                    <div id="location-panel" class="tab-panel" role="tabpanel" aria-labelledby="location">
+                        <div id="mapContainer" class="map-container"></div>
+                        <div class="metadata-grid" id="locationMetadata"></div>
+                    </div>
+
+                    <!-- Colors Panel -->
+                    <div id="colors-panel" class="tab-panel" role="tabpanel" aria-labelledby="colors">
+                        <div id="colorPalette" class="color-palette"></div>
+                        <div id="histogramContainer" class="histogram-container"></div>
+                        <div class="metadata-grid" id="colorsMetadata"></div>
+                    </div>
+
+                    <!-- Text & QR Panel -->
+                    <div id="text-panel" class="tab-panel" role="tabpanel" aria-labelledby="text">
+                        <div class="metadata-grid" id="textMetadata"></div>
+                    </div>
+
+                    <!-- Technical Details Panel -->
+                    <div id="technical-panel" class="tab-panel" role="tabpanel" aria-labelledby="technical">
+                        <div class="metadata-grid" id="technicalMetadata"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <h2 class="section-title">Powerful Features</h2>
+        <div class="features-grid">
+            <article class="feature-card">
+                <i class="fas fa-camera feature-icon"></i>
+                <h3>EXIF Data</h3>
+                <p>Extract camera settings, lens info, exposure time, ISO, aperture, and capture date</p>
+            </article>
+            <article class="feature-card">
+                <i class="fas fa-map-marked-alt feature-icon"></i>
+                <h3>GPS Location</h3>
+                <p>View embedded location coordinates with interactive map visualization</p>
+            </article>
+            <article class="feature-card">
+                <i class="fas fa-palette feature-icon"></i>
+                <h3>Color Analysis</h3>
+                <p>Extract dominant colors, palettes, and analyze brightness & saturation</p>
+            </article>
+            <article class="feature-card">
+                <i class="fas fa-text feature-icon"></i>
+                <h3>OCR Text</h3>
+                <p>Extract text from images using advanced optical character recognition</p>
+            </article>
+            <article class="feature-card">
+                <i class="fas fa-qrcode feature-icon"></i>
+                <h3>QR Codes</h3>
+                <p>Detect and decode QR codes and barcodes embedded in images</p>
+            </article>
+            <article class="feature-card">
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <h3>Privacy First</h3>
+                <p>All processing done client-side. Your data never leaves your device</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <h2 class="section-title">About MetaVision</h2>
+        <p class="about-text">MetaVision is a comprehensive image metadata extraction tool that processes everything client-side to ensure your privacy. Extract detailed information from your images including camera settings, GPS coordinates, color analysis, embedded text, and much more.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MetaVision</h3>
+                <p>Advanced Image Metadata Extractor</p>
+            </div>
+            <div class="footer-section">
+                <h3>Developer</h3>
+                <p><strong>Dippan Bhusal</strong></p>
+                <p><a href="mailto:connect.dippan@gmail.com">connect.dippan@gmail.com</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="https://instagram.com/dippan.bhusal" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://twitter.com/DippanBhusal" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://facebook.com/dippan.bhusall" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Dippan Bhusal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
