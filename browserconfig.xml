@@ -6,6 +6,10 @@
       <square150x150logo src="/icons/icon-150x150.png" />
       <square310x310logo src="/icons/icon-310x310.png" />
       <wide310x150logo src="/icons/icon-310x150.png" />
+       <square70x70logo src="/windows11/SmallTile.scale-100.png"/>
+            <square150x150logo src="/windows11/Square150x150Logo.scale-200.png"/>
+            <square310x310logo src="/windows11/LargeTile.scale-200.png"/>
+            <wide310x150logo src="/windows11/Wide310x150Logo.scale-200.png"/>
       <TileColor>#6366f1</TileColor>
     </tile>
   </msapplication>
