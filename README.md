@@ -9,8 +9,7 @@
 [![Live Demo](https://img.shields.io/badge/demo-live-success)](https://bejewelled-sopapillas-bef28b.netlify.app)
 [![GitHub](https://img.shields.io/badge/github-repository-blue)](https://github.com/kdippan/metavision-image-metadata-extractor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/auto/deploy-status)](https://bejewelled-sopapillas-bef28b.netlify.app)
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/887b2fbd-5504-4b08-9b77-d6b02026d1cb/deploy-status)](https://app.netlify.com/projects/bejewelled-sopapillas-bef28b/deploys)
 [Live Demo](https://bejewelled-sopapillas-bef28b.netlify.app) • [Report Bug](https://github.com/kdippan/metavision-image-metadata-extractor/issues) • [Request Feature](https://github.com/kdippan/metavision-image-metadata-extractor/issues)
 
 </div>
